@@ -143,34 +143,34 @@ class LunaDataset(Dataset):
             len(self.candidateInfo_list),
             "validation" if isValSet_bool else "training",
         ))
-        def __len__(self):
-            return len(self.candidateInfo_list)
-        def __getitem__(self, ndx):
-            candidateInfo_tup = self.candidateInfo_list[ndx]
-            width_irc = (32, 48, 48)
-            candidate_a, center_irc = getCtRawCandidate(
-                candidateInfo_tup.series_uid,
-                candidateInfo_tup.center_xyz,
-                width_irc,
-            )
+    def __len__(self):
+        return len(self.candidateInfo_list)
+    def __getitem__(self, ndx):
+        candidateInfo_tup = self.candidateInfo_list[ndx]
+        width_irc = (32, 48, 48)
+        candidate_a, center_irc = getCtRawCandidate(
+            candidateInfo_tup.series_uid,
+            candidateInfo_tup.center_xyz,
+            width_irc,
+        )
 
-            candidate_t = torch.from_numpy(candidate_a)
-            candidate_t = candidate_t.to(torch.float32)
-            candidate_t = torch.unsqueeze(0)
+        candidate_t = torch.from_numpy(candidate_a)
+        candidate_t = candidate_t.to(torch.float32)
+        candidate_t = torch.unsqueeze(0)
 
-            pos_t = torch.tensor([
-                not candidateInfo_tup.isNodule_bool,
-                candidateInfo_tup.isNodule_bool
-            ],
-                dtype=torch.long,
-            )
+        pos_t = torch.tensor([
+            not candidateInfo_tup.isNodule_bool,
+            candidateInfo_tup.isNodule_bool
+        ],
+               dtype=torch.long,
+        )
 
-            return (
-                candidate_t,
-                pos_t,
-                candidateInfo_tup.series_uid,
-                torch.tensor(center_irc),
-            )
+        return (
+            candidate_t,
+            pos_t,
+            candidateInfo_tup.series_uid,
+            torch.tensor(center_irc),
+        )
 
 
 
