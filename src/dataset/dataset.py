@@ -35,9 +35,7 @@ def getCandidateInfoList(requiredOnDisk_bool = True):
 
     diameter_dict = {}
     with open('/kaggle/input/luna16/annotations.csv', "r") as f:
-        reader = csv.reader(f)
-        next(reader)  # 👈 bỏ qua dòng header
-        for row in list(csv.reader(f)):
+        for row in list(csv.reader(f))[1:]:
             series_uid = row[0]
             annotationCenter_xyz = tuple(float(x) for x in row[1:4])
             annotationDiameter_mm = float(row[4])
