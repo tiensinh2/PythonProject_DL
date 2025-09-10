@@ -1,13 +1,16 @@
 import gzip
+from io import BytesIO
 
 from diskcache import FanoutCache, Disk
-from diskcache.core import BytesType, MODE_BINARY, BytesIO
+try:
+    from diskcache.core import BytesType, MODE_BINARY
+except ImportError:
+    BytesType = bytes
+    MODE_BINARY = 2
 
 from src.util.logconf import logging
 log = logging.getLogger(__name__)
-# log.setLevel(logging.WARN)
 log.setLevel(logging.INFO)
-# log.setLevel(logging.DEBUG)
 
 
 class GzipDisk(Disk):
