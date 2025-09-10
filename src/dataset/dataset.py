@@ -13,9 +13,10 @@ import torch
 import torch.cuda
 from torch.utils.data import Dataset
 
-from util.disk import getCache
-from util.util import XyzTuple, xyz2irc
-from util.logconf import logging
+from src.util.disk import getCache
+from src.util.util import XYZTuple, xyz_to_irc
+from src.util.logconf import logging
+
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
@@ -41,7 +42,7 @@ def getCandidateInfoList(requiredOnDisk_bool = True):
 
             diameter_dict.setdefault(series_uid, []).append((annotationCenter_xyz, annotationDiameter_mm))
 
-    candidateInfoList = []
+    candidateInfo_list = []
     with open('/kaggle/input/luna16/candidates.csv', "r") as f:
         for row in list(csv.reader(f))[1:]:
             series_uid = row[0]
@@ -60,14 +61,14 @@ def getCandidateInfoList(requiredOnDisk_bool = True):
                 else:
                     candidateDiameter_mm = annotationDiameter_mm
                     break
-            candidateInfo_list.append(candidateInfoTuple(isNodule_bool, candidateDiameter_mm, series_uid, candidateCenter_xyz))
-    candidateInfoList = sorted(candidateInfoList, key = lambda x: x.isNodule_bool, reverse = True)
+            candidateInfo_list.append(CandidateInfoTuple(isNodule_bool, candidateDiameter_mm, series_uid, candidateCenter_xyz))
+    candidateInfoList = sorted(candidateInfo_list, key = lambda x: x.isNodule_bool, reverse = True)
     return candidateInfoList
 
 class Ct:
     def __init__(self, series_uid):
         mhd_path_files = glob.glob('/kaggle/input/luna16/subset0/subset0/{}.mhd'.format(series_uid))
-        if not mhd_path:
+        if not mhd_path_files:
             raise FileNotFoundError
         else:
             mhd_path = mhd_path_files[0]
@@ -76,8 +77,8 @@ class Ct:
         ct_a.clip(-1000, 1000, ct_a)
         self.series_uid = series_uid
         self.hu_a = ct_a
-        self.origin_xyz = XyzTuple(*ct_mhd.GetOrigin())
-        self.vxSize_xyz = XyzTuple(*ct_mhd.GetSpacing())
+        self.origin_xyz = XYZTuple(*ct_mhd.GetOrigin())
+        self.vxSize_xyz = XYZTuple(*ct_mhd.GetSpacing())
         self.direction_a = np.array(ct_mhd.GetDirection()).reshape(3, 3)
 
     def getRawCandidate(self, center_xyz, width_irc):

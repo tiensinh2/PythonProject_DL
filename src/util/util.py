@@ -6,7 +6,7 @@ import datetime
 import gc
 import time
 import numpy as np
-from util.logconf import logging
+from src.util.logconf import logging
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 #IRC: Index, Row, Cow
