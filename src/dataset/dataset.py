@@ -89,8 +89,8 @@ class Ct:
                                 self.direction_a)
         slice_list = []
         for axis, center_val in enumerate(center_irc):
-            start_ndx = int(round(center_val - width_irc/2))
-            end_ndx =  int(round(start_ndx + width_irc))
+            start_ndx = int(round(center_val - width_irc[axis] / 2))
+            end_ndx = int(round(start_ndx + width_irc[axis]))
             assert center_val >= 0 and center_val < self.hu_a.shape[axis], repr(
                 [self.series_uid, center_xyz, self.origin_xyz, self.vxSize_xyz, center_irc, axis])
             if start_ndx < 0:
