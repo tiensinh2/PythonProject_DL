@@ -33,6 +33,7 @@ def getCandidateInfoList(requiredOnDisk_bool = True):
     mhd_list = glob.glob('/kaggle/input/luna16/subset0/subset0/*.mhd') #replace ... by data path in kaggle
     presentOnDisk_set = {os.path.split(x)[-1][:-4] for x in mhd_list}
 
+
     diameter_dict = {}
     with open('/kaggle/input/luna16/annotations.csv', "r") as f:
         for row in list(csv.reader(f))[1:]:
@@ -46,7 +47,7 @@ def getCandidateInfoList(requiredOnDisk_bool = True):
     with open('/kaggle/input/luna16/candidates.csv', "r") as f:
         for row in list(csv.reader(f))[1:]:
             series_uid = row[0]
-            if series_uid not in presentOnDisk_set or requiredOnDisk_bool:
+            if series_uid not in presentOnDisk_set and requiredOnDisk_bool:
                 continue
             candidateCenter_xyz = tuple(float(x) for x in row[1:4])
             isNodule_bool = bool(int(row[4]))
