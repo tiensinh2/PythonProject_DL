@@ -155,7 +155,8 @@ class LunaDataset(Dataset):
 
         candidate_t = torch.from_numpy(candidate_a)
         candidate_t = candidate_t.to(torch.float32)
-        candidate_t = torch.unsqueeze(0)
+        candidate_t = torch.unsqueeze(candidate_t, 0)  # 0 là vị trí axis mới
+
 
         pos_t = torch.tensor([
             not candidateInfo_tup.isNodule_bool,
