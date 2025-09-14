@@ -30,7 +30,7 @@ class LunaTrainingApp:
         parser = argparse.ArgumentParser()
         parser.add_argument('--num-workers',
                             help='number of worker processes',
-                            type=int, default=8)
+                            type=int, default=2)
         parser.add_argument('--batch-size', type=int, default=16)
         parser.add_argument('--epochs', type=int, default= 3)
         parser.add_argument('--tb-prefix',
