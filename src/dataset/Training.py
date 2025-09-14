@@ -158,7 +158,7 @@ class LunaTrainingApp:
         self.totalTraining_samples += len(val_dl.dataset)
         return valMetrics.to('cpu')
     def computeBatchLoss(self, batch_ndx, batch_tup, batch_size, metrics_g):
-        inputs, labels, _series_list, _center_list = batch_tup
+        inputs, labels, _series_list, _center_list = batch_tup[0], batch_tup[1], batch_tup[2], batch_tup[3]
         input_g = inputs.to(self.device, non_blocking=True)
         labels_g = labels.to(self.device, non_blocking=True)
 

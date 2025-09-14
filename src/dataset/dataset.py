@@ -183,6 +183,13 @@ class LunaDataset(Dataset):
             torch.tensor(center_irc),
         )
 
+    def collate_luna(self, batch):
+        inputs = torch.stack([x[0] for x in batch])
+        labels = torch.stack([x[1] for x in batch])
+        series_uid_list = [x[2] for x in batch]
+        centers = torch.stack([x[3] for x in batch])
+        return inputs, labels, series_uid_list, centers
+
 
 
 
