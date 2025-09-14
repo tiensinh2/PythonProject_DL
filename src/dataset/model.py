@@ -6,7 +6,7 @@ from src.dataset import *
 from src.util.logconf import *
 import torch
 from torch import nn as nn
-log = logging.getlogger(__name__)
+log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
 class LunaModel(nn.Module):
