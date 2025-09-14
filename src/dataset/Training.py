@@ -122,25 +122,28 @@ class LunaTrainingApp:
 
     def doTraining(self, epoch_ndx, train_dl):
         self.model.train()
-        trainMetrics = torch.zeros(METRICS_SIZE,
-                                   len(train_dl.dataset),
-                                   device = self.device)
-        batch_iter = enumerateWithEstimate(train_dl,
-                                           "E{} Training".format(epoch_ndx),
-                                           start_ndx= train_dl.num_workers)
+        trainMetrics = torch.zeros(METRICS_SIZE, len(train_dl.dataset), device=self.device)
+        batch_iter = enumerateWithEstimate(train_dl, "E{} Training".format(epoch_ndx), start_ndx=train_dl.num_workers)
 
-
-        for batch_ndx, batch_tup in enumerate(batch_iter):
+        for batch_ndx, batch_tup in batch_iter:
             logging.debug(f"Batch index: {batch_ndx}")
             logging.debug(f"Batch type: {type(batch_tup)}")
             logging.debug(f"Batch length: {len(batch_tup)}")
             logging.debug(f"Batch content types: {[type(x) for x in batch_tup]}")
-            logging.debug(f"Batch shapes: {[x.shape if isinstance(x, torch.Tensor) else len(x) for x in batch_tup]}")
+
+            # Sửa debug shapes: Xử lý int, str, None
+            shapes_info = []
+            for x in batch_tup:
+                if isinstance(x, torch.Tensor):
+                    shapes_info.append(f"Tensor {x.shape}")
+                elif hasattr(x, '__len__'):  # List, tuple, etc.
+                    shapes_info.append(f"Len {len(x)}")
+                else:
+                    shapes_info.append(f"Type {type(x)} (no len)")
+            logging.debug(f"Batch shapes/info: {shapes_info}")
+
             self.optimizer.zero_grad()
-            loss = self.computeBatchLoss(batch_ndx,
-                                         batch_tup,
-                                         train_dl.batch_size,
-                                         trainMetrics)
+            loss = self.computeBatchLoss(batch_ndx, batch_tup, train_dl.batch_size, trainMetrics)
             loss.backward()
             self.optimizer.step()
 
