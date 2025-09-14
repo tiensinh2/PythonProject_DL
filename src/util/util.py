@@ -60,7 +60,7 @@ def enumerateWithEstimate(
         backoff = 2
         while backoff ** 7 < iter_len:
             backoff *= 2
-        assert backoff > 2
+        assert backoff >= 2
         while print_ndx < start_ndx * backoff:
             print_ndx *= backoff
         log.warning("{} --- /{}. starting".format(desc_str, iter_len))
