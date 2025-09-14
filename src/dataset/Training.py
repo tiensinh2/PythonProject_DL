@@ -71,7 +71,7 @@ class LunaTrainingApp:
         batch_size = self.cli_args.batch_size
         if self.use_cuda:
             batch_size *= torch.cuda.device_count()
-        train_dl = DataLoader(train_dts, batch_size = batch_size, num_workers = self.cli_args.num_workers, pin_memory = self.use_cuda)
+        train_dl = DataLoader(train_dts, batch_size = batch_size, num_workers = self.cli_args.num_workers, collate_fn= train_dts.collate_luna ,pin_memory = self.use_cuda)
         return train_dl
     def initValDl(self):
         val_ds = LunaDataset(
@@ -87,6 +87,7 @@ class LunaTrainingApp:
             val_ds,
             batch_size=batch_size,
             num_workers=self.cli_args.num_workers,
+            collate_fn=val_ds.collate_luna,
             pin_memory=self.use_cuda,
         )
         return val_dl
