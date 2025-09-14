@@ -17,7 +17,7 @@ class LunaModel(nn.Module):
         self.block2 = LunaBlock(out_channels, out_channels * 2)
         self.block3 = LunaBlock(out_channels * 2, out_channels * 4)
         self.block4 = LunaBlock(out_channels * 4, out_channels * 8)
-        self.head = nn.Linear(out_channels * 8, 2)
+        self.head = nn.Linear(1152, 2)
         self.softmax = nn.Softmax(dim=1)
         self.init_weights()
     def init_weights(self):
