@@ -147,9 +147,9 @@ class LunaTrainingApp:
             loss.backward()
             self.optimizer.step()
 
-            if epoch_ndx == 1 and batch_ndx == 0:
-                with torch.no_grad():
-                    self.trn_writer.add_graph(self.model, batch_tup[0], verbose=True)
+            #if epoch_ndx == 1 and batch_ndx == 0:
+            #    with torch.no_grad():
+             #       self.trn_writer.add_graph(self.model, batch_tup[0], verbose=True)
         self.totalTraining_samples += len(train_dl.dataset)
         return trainMetrics.to('cpu')
     def doValidation(self, epoch_ndx, val_dl):
