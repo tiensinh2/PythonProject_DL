@@ -36,12 +36,13 @@ class LunaPrepCacheApp:
     def main(self):
         log.info("Starting {}, {}".format(type(self).__name__, self.cli_args))
 
+        dataset = LunaDataset(sortby_str='series_uid')
+
         self.prep_dl = DataLoader(
-            LunaDataset(
-                sortby_str='series_uid',
-            ),
+            dataset,
             batch_size=self.cli_args.batch_size,
             num_workers=self.cli_args.num_workers,
+            collate_fn=lambda batch: dataset.collate_luna(batch),  # dùng collate của dataset
         )
 
         batch_iter = enumerateWithEstimate(

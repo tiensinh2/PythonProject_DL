@@ -184,6 +184,10 @@ class LunaDataset(Dataset):
         )
 
     def collate_luna(self, batch):
+        for i, item in enumerate(batch):
+            if len(item) != 4:
+                print(f"Error in batch, sample {i} has {len(item)} elements: {item}")
+                raise ValueError(f"Sample {i} does not have 4 elements")
         inputs = torch.stack([x[0] for x in batch])
         labels = torch.stack([x[1] for x in batch])
         series_uid_list = [x[2] for x in batch]
