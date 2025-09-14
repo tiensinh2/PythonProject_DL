@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from src.util.util import *
 from src.dataset.dataset import LunaDataset
 from src.util.logconf import logging
-from model import LunaModel
+from src.dataset.model import LunaModel
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
