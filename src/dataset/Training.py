@@ -11,8 +11,8 @@ from torch.utils.tensorboard import SummaryWriter
 
 from src.util.logconf import logging
 from src.util.util import *
-from dataset import LunaDataset
-from model import LunaModel
+from src.dataset.dataset import LunaDataset
+from src.dataset.model import LunaModel
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
