@@ -129,12 +129,12 @@ class LunaDataset(Dataset):
         self.candidateInfo_list = copy.copy(getCandidateInfoList())
 
         if series_uid:
-            self.candidateInfoList = [
+            self.candidateInfo_list = [
                 x for x in self.candidateInfo_list if x.series_uid == series_uid
             ]
         if isValSet_bool:
             assert val_stride > 0, val_stride
-            self.candidateInfo_list = self.candidateInfoList[::val_stride]
+            self.candidateInfo_list = self.candidateInfo_list[::val_stride]
             assert self.candidateInfo_list
         elif val_stride > 0:
             assert val_stride > 0, val_stride
