@@ -42,7 +42,7 @@ class LunaModel(nn.Module):
         x = self.block2(x)
         x = self.block3(x)
         x = self.block4(x)
-        x_flat = contiguous(x).view(x.size(0), -1)
+        x_flat = x.view(x.size(0), -1)
         linear = self.head(x_flat)
         return linear, self.softmax(linear)
 
