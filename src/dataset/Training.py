@@ -30,7 +30,7 @@ class LunaTrainingApp:
         parser = argparse.ArgumentParser()
         parser.add_argument('--num-workers',
                             help='number of worker processes',
-                            type=int, default=2)
+                            type=int, default=0)
         parser.add_argument('--batch-size', type=int, default=16)
         parser.add_argument('--epochs', type=int, default= 3)
         parser.add_argument('--tb-prefix',
@@ -128,7 +128,14 @@ class LunaTrainingApp:
         batch_iter = enumerateWithEstimate(train_dl,
                                            "E{} Training".format(epoch_ndx),
                                            start_ndx= train_dl.num_workers)
+
+
         for batch_ndx, batch_tup in enumerate(batch_iter):
+            logging.debug(f"Batch index: {batch_ndx}")
+            logging.debug(f"Batch type: {type(batch_tup)}")
+            logging.debug(f"Batch length: {len(batch_tup)}")
+            logging.debug(f"Batch content types: {[type(x) for x in batch_tup]}")
+            logging.debug(f"Batch shapes: {[x.shape if isinstance(x, torch.Tensor) else len(x) for x in batch_tup]}")
             self.optimizer.zero_grad()
             loss = self.computeBatchLoss(batch_ndx,
                                          batch_tup,
