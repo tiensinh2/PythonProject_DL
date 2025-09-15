@@ -160,7 +160,7 @@ class LunaTrainingApp:
         batch_iter = enumerateWithEstimate(val_dl,
                                            "E{} Validation".format(epoch_ndx),
                                            start_ndx= val_dl.num_workers)
-        for batch_ndx, batch_tup in enumerate(batch_iter):
+        for batch_ndx, batch_tup in batch_iter:
             with torch.no_grad():
                 loss_val = self.computeBatchLoss(batch_ndx,
                                                  batch_tup,
